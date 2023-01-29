@@ -42,7 +42,7 @@ module FixtureBuilder
     end
 
     def record_name(record_hash, table_name, row_index)
-      key = [table_name, record_hash['id'].to_i]
+      key = [table_name, record_hash['id']]
       name = case
                when name_proc = @model_name_procs[table_name]
                  name_proc.call(record_hash, row_index.succ!)
