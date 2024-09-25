@@ -125,7 +125,9 @@ module FixtureBuilder
 
           row_index = '000'
           fixture_data = rows.inject({}) do |hash, record|
-            hash.merge(record_name(record, table_name, row_index) => record)
+            key = record_name(record, table_name, row_index) 
+            row_index = row_index.succ
+            hash.merge(key => record)
           end
 
           write_fixture_file fixture_data, table_name
