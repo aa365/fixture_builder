@@ -103,10 +103,14 @@ module FixtureBuilder
       Date::DATE_FORMATS[:default] = Date::DATE_FORMATS[:db]
       begin
         fixtures = tables.inject([]) do |files, table_name|
-          table_klass = begin
-            table_name.classify.constantize
+          begin
+            table_klass = table_name.classify.constantize
           rescue StandardError
-            nil
+            begin
+              table_klass = table_name.split('_').map(&:classify).join('::').constantize
+            rescue StandardError
+              nil
+            end
           end
           if table_klass && table_klass < ActiveRecord::Base
             rows = table_klass.unscoped do
